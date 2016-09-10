@@ -12,20 +12,16 @@
 
         <table cellspacing="0" class="dataview">
             <tr class="headers">
-                <!--<th>Actions</th>-->
-                <!--<th>ID</th>-->
                 <th wicket:id="orderByDate">Date</th>
                 <th wicket:id="orderByTitle">Title</th>
                 <th wicket:id="orderByScore">Score</th>
                 <th wicket:id="orderByAuthor">Author</th>
             </tr>
             <tr wicket:id="sorting">
-                <!--<td><span wicket:id="actions">[actions]</span></td>-->
-                <!--<td><span wicket:id="id">[id]</span> </td>-->
                 <td nowrap><span wicket:id="date">[date]</span></td>
-                <td><span wicket:id="title">[title]</span></td>
+                <td><a href="" wicket:id="title" target="_blank"></a></td>
                 <td><span wicket:id="score">[score]</span></td>
-                <td><span wicket:id="author">[author]</span></td>
+                <td nowrap><img wicket:id="avatar" height="24" width="24"/><a href="" wicket:id="author" target="_blank"></a></td>
             </tr>
         </table>
         <p><span wicket:id="navigator">[dataview navigator]</span></p>

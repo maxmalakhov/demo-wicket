@@ -6,7 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
-import javax.ws.rs.client.Invocation;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
@@ -33,7 +32,7 @@ public class QuestionDataService {
         Response response = null;
         try
         {
-            response = buildClient(ActionTypeEnum.QUESTIONS, "").get();
+            response = request(ActionTypeEnum.QUESTIONS, "");
         }
         catch (Exception ex)
         {
@@ -46,8 +45,8 @@ public class QuestionDataService {
             LOG.error(response.getStatusInfo().getReasonPhrase());
             throw new ClientException(response.toString());
         }
-        return response.readEntity(QuestionResponseBean.class).getQuestions();
 
+        return parse(response).getQuestions();
     }
 
     /**
@@ -62,8 +61,7 @@ public class QuestionDataService {
         Response response = null;
         try
         {
-
-            response = buildClient(ActionTypeEnum.SEARCH, term).get();
+            response = request(ActionTypeEnum.SEARCH, term);
         }
         catch (Exception ex)
         {
@@ -76,15 +74,30 @@ public class QuestionDataService {
             LOG.error(response.getStatusInfo().getReasonPhrase());
             throw new ClientException(response.toString());
         }
-        return response.readEntity(QuestionResponseBean.class).getQuestions();
+
+        return parse(response).getQuestions();
     }
 
-    private Invocation.Builder buildClient(ActionTypeEnum action, String term)
+    private Response request(ActionTypeEnum action, String term)
     {
         return JerseyClient.buildClient(action)
                 .queryParam(PARAM_SORT_TYPE, SortTypeEnum.ACTIVITY.getValue())
                 .queryParam(PARAM_ORDER_TYPE, OrderTypeEnum.DESC.getValue())
                 .queryParam(PARAM_INTITLE, term)
-                .request(MediaType.APPLICATION_JSON_TYPE);
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .get();
+    }
+
+    private QuestionResponseBean parse(Response response) throws ClientException
+    {
+        try
+        {
+            return response.readEntity(QuestionResponseBean.class);
+        }
+        catch (Exception ex)
+        {
+            LOG.error(ex.getMessage(), ex);
+            throw new ClientException(ex.getMessage());
+        }
     }
 }

@@ -6,13 +6,18 @@ import demo.services.QuestionDataService;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.extensions.markup.html.repeater.data.sort.OrderByBorder;
 import org.apache.wicket.extensions.markup.html.repeater.data.table.filter.FilterForm;
+import org.apache.wicket.markup.ComponentTag;
+import org.apache.wicket.markup.html.WebComponent;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.ExternalLink;
 import org.apache.wicket.markup.html.navigation.paging.PagingNavigator;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.spring.injection.annot.SpringBean;
 
@@ -57,12 +62,11 @@ public class ResultPanel extends Panel {
             @Override
             protected void populateItem(final Item<Question> item) {
                 Question question = item.getModelObject();
-//                item.add(new ActionPanel("actions", item.getModel()));
-//                item.add(new Label("id", String.valueOf(question.getId())));
                 item.add(new Label("date", new SimpleDateFormat("yyyy-MM-dd hh:mm").format(question.getCreationDate())));
-                item.add(new Label("title", question.getTitle()));
+                item.add(new ExternalLink("title", question.getLink(), question.getTitle()));
                 item.add(new Label("score", question.getScore()));
-                item.add(new Label("author", question.getAuthor().getName()));
+                item.add(new StaticImage("avatar", Model.of(question.getAuthor().getAvatarLink())));
+                item.add(new ExternalLink("author", question.getAuthor().getLink(), question.getAuthor().getName()));
 
                 item.add(AttributeModifier.replace("class", new AbstractReadOnlyModel<String>() {
                     private static final long serialVersionUID = 1L;
@@ -117,8 +121,22 @@ public class ResultPanel extends Panel {
 
         add(new Label("exceptionMessage", new PropertyModel<String>(result, "exceptionMessage")));
 
-
         add(new PagingNavigator("navigator", dataView));
 
     }
+
+    private class StaticImage extends WebComponent {
+
+        public StaticImage(String id, IModel model) {
+            super(id, model);
+        }
+
+        protected void onComponentTag(ComponentTag tag) {
+            super.onComponentTag(tag);
+            checkComponentTag(tag, "img");
+            tag.put("src", getDefaultModelObjectAsString());
+        }
+
+    }
+
 }

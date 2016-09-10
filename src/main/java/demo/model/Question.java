@@ -18,6 +18,7 @@ public class Question implements Serializable {
     private Date creationDate;
     private boolean answered = false;
     private int score = 0;
+    private String link;
 
     public String getId() {
         return id;
@@ -69,5 +70,13 @@ public class Question implements Serializable {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public String getLink() {
+        return link;
+    }
+
+    public void setLink(String link) {
+        this.link = link;
     }
 }

@@ -171,8 +171,9 @@ h3 {
 }
 
 a {
-    color: #E9601A;
-    font-weight: bold;
+    /*color: #E9601A;*/
+    color: darkblue;
+    /*font-weight: bold;*/
     text-decoration: none;
 }
 
