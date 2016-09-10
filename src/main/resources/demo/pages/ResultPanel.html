@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<wicket:panel xmlns:wicket="http://wicket.apache.org">
+
+    <div>
+        <form wicket:id="filterForm">
+            <fieldset style="display: inline-block;">
+                <legend>Filter</legend>
+                <span><input wicket:id="filter"/></span>
+            </fieldset>
+        </form>
+
+        <table cellspacing="0" class="dataview">
+            <tr class="headers">
+                <!--<th>Actions</th>-->
+                <!--<th>ID</th>-->
+                <th wicket:id="orderByDate">Date</th>
+                <th wicket:id="orderByTitle">Title</th>
+                <th wicket:id="orderByScore">Score</th>
+                <th wicket:id="orderByAuthor">Author</th>
+            </tr>
+            <tr wicket:id="sorting">
+                <!--<td><span wicket:id="actions">[actions]</span></td>-->
+                <!--<td><span wicket:id="id">[id]</span> </td>-->
+                <td nowrap><span wicket:id="date">[date]</span></td>
+                <td><span wicket:id="title">[title]</span></td>
+                <td><span wicket:id="score">[score]</span></td>
+                <td><span wicket:id="author">[author]</span></td>
+            </tr>
+        </table>
+        <p><span wicket:id="navigator">[dataview navigator]</span></p>
+
+        <p><span wicket:id="exceptionMessage" style="color: red; font-weight: bold;"></span></p>
+    </div>
+
+</wicket:panel>
