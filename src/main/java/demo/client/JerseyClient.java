@@ -20,6 +20,11 @@ public class JerseyClient {
     private static final String PARAM_SOURCE_TYPE = "site";
     private static final String PARAM_SOURCE_VALUE = "stackoverflow";
 
+    /**
+     *
+     * @param action
+     * @return
+     */
     public static WebTarget buildClient(ActionTypeEnum action)
     {
         ClientConfig clientConfig = new ClientConfig();

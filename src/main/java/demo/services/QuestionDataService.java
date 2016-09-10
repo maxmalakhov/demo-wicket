@@ -2,6 +2,7 @@ package demo.services;
 
 import demo.client.*;
 import demo.model.Question;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
@@ -16,27 +17,63 @@ import java.util.List;
 @Service
 public class QuestionDataService {
 
+    private static org.slf4j.Logger LOG = LoggerFactory.getLogger(QuestionDataService.class);
+
     private static final String PARAM_ORDER_TYPE = "order";
     private static final String PARAM_SORT_TYPE = "sort";
     private static final String PARAM_INTITLE = "intitle";
 
+    /**
+     *
+     * @return
+     * @throws ClientException
+     */
     public List<Question> allQuestions() throws ClientException {
 
-        Response response = buildClient(ActionTypeEnum.QUESTIONS, "").get();
+        Response response = null;
+        try
+        {
+            response = buildClient(ActionTypeEnum.QUESTIONS, "").get();
+        }
+        catch (Exception ex)
+        {
+            LOG.error(ex.getMessage(), ex);
+            throw new ClientException(ex.getMessage());
+        }
+
         if(response.getStatusInfo().getStatusCode() != 200)
         {
+            LOG.error(response.getStatusInfo().getReasonPhrase());
             throw new ClientException(response.toString());
         }
         return response.readEntity(QuestionResponseBean.class).getQuestions();
 
     }
 
+    /**
+     *
+     * @param term
+     * @return
+     * @throws ClientException
+     */
     @Cacheable(cacheNames = "searchResult", key="#term")
     public List<Question> searchQuestions(String term) throws ClientException {
 
-        Response response = buildClient(ActionTypeEnum.SEARCH, term).get();
+        Response response = null;
+        try
+        {
+
+            response = buildClient(ActionTypeEnum.SEARCH, term).get();
+        }
+        catch (Exception ex)
+        {
+            LOG.error(ex.getMessage(), ex);
+            throw new ClientException(ex.getMessage());
+        }
+
         if(response.getStatusInfo().getStatusCode() != 200)
         {
+            LOG.error(response.getStatusInfo().getReasonPhrase());
             throw new ClientException(response.toString());
         }
         return response.readEntity(QuestionResponseBean.class).getQuestions();
