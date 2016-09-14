@@ -8,6 +8,8 @@ import org.glassfish.jersey.message.GZipEncoder;
 
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
 
 /**
  * Created by Max Malakhov on 9/7/16.
@@ -19,6 +21,36 @@ public class JerseyClient {
 
     private static final String PARAM_SOURCE_TYPE = "site";
     private static final String PARAM_SOURCE_VALUE = "stackoverflow";
+
+    private static final String PARAM_ORDER_TYPE = "order";
+    private static final String PARAM_SORT_TYPE = "sort";
+    private static final String PARAM_INTITLE = "intitle";
+
+    /**
+     *
+     * @param action
+     * @return
+     */
+    public static Response request(ActionTypeEnum action)
+    {
+        return request(action, "");
+    }
+
+    /**
+     *
+     * @param action
+     * @param term
+     * @return
+     */
+    public static Response request(ActionTypeEnum action, String term)
+    {
+        return JerseyClient.buildClient(action)
+                .queryParam(PARAM_SORT_TYPE, SortTypeEnum.ACTIVITY.getValue())
+                .queryParam(PARAM_ORDER_TYPE, OrderTypeEnum.DESC.getValue())
+                .queryParam(PARAM_INTITLE, term)
+                .request(MediaType.APPLICATION_JSON_TYPE)
+                .get();
+    }
 
     /**
      *
@@ -32,8 +64,8 @@ public class JerseyClient {
         clientConfig.register(GZipEncoder.class);
         clientConfig.property("com.sun.jersey.api.json.POJOMappingFeature", Boolean.TRUE);
         clientConfig.property(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES.name(), Boolean.FALSE);
-        clientConfig.property(ClientProperties.CONNECT_TIMEOUT, 1000);
-        clientConfig.property(ClientProperties.READ_TIMEOUT, 500);
+        clientConfig.property(ClientProperties.CONNECT_TIMEOUT, 10000);
+        clientConfig.property(ClientProperties.READ_TIMEOUT, 1000);
 
         return ClientBuilder.newClient(clientConfig)
             .target(SERVER_URL)
