@@ -20,7 +20,7 @@ body { margin:0;padding:0;}
 	z-index : 0;
 }
 #logo,#bd {
-	width : 650px;
+	/*width : 650px;*/
 	margin: 0 auto;
 	padding: 25px 50px 0 50px;
 }
@@ -41,8 +41,9 @@ body { margin-top : 0; padding-top : 0;}
 	position : absolute;
 	top : 75px;
 	bottom : 75px;
-	left : 50%;
-	margin-left : -325px;
+	left : 10%;
+	right : 10%;
+	/*margin-left : -325px;*/
 	z-index : 1;
 	overflow: auto;
 	background-color : #fff;
