@@ -1,15 +1,15 @@
-package demo.client;
+package demo.constants;
 
 /**
  * Created by Max Malakhov on 9/7/16.
  */
-public enum OrderTypeEnum {
+public enum SortTypeEnum {
 
-    DESC("desc"), ASC("asc");
+    ACTIVITY("activity"), VOTES("votes"), CREATION("creation"), RELEVANCE("relevance");
 
     private String value;
 
-    private OrderTypeEnum(String value)
+    private SortTypeEnum(String value)
     {
         this.value = value;
     }

@@ -1,9 +1,8 @@
 package demo.services;
 
-import demo.client.ActionTypeEnum;
-import demo.client.ClientException;
-import demo.client.JerseyClient;
-import demo.client.QuestionResponseBean;
+import demo.client.*;
+import demo.constants.ActionTypeEnum;
+import demo.constants.SortTypeEnum;
 import demo.model.Question;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -30,7 +29,7 @@ public class QuestionDataProvider
         Response response = null;
         try
         {
-            response = JerseyClient.request(ActionTypeEnum.QUESTIONS);
+            response = JerseyClient.request(ActionTypeEnum.QUESTIONS, SortTypeEnum.CREATION);
         }
         catch (Exception ex)
         {
@@ -60,7 +59,7 @@ public class QuestionDataProvider
         Response response = null;
         try
         {
-            response = JerseyClient.request(ActionTypeEnum.SEARCH, term);
+            response = JerseyClient.request(ActionTypeEnum.SEARCH, SortTypeEnum.ACTIVITY, term);
         }
         catch (Exception ex)
         {

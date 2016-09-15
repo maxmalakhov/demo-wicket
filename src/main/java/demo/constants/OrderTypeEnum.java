@@ -1,15 +1,15 @@
-package demo.client;
+package demo.constants;
 
 /**
  * Created by Max Malakhov on 9/7/16.
  */
-public enum ActionTypeEnum {
+public enum OrderTypeEnum {
 
-    SEARCH("search"), QUESTIONS("questions");
+    DESC("desc"), ASC("asc");
 
     private String value;
 
-    private ActionTypeEnum(String value)
+    private OrderTypeEnum(String value)
     {
         this.value = value;
     }
@@ -18,5 +18,4 @@ public enum ActionTypeEnum {
     {
         return value;
     }
-
 }

@@ -2,6 +2,8 @@ package demo.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import demo.utils.CustomJsonDateDeserializer;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -51,6 +53,7 @@ public class Question implements Serializable {
     }
 
     @JsonProperty("creation_date")
+    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     public void setCreationDate(Date creationDate) {
         this.creationDate = creationDate;
     }

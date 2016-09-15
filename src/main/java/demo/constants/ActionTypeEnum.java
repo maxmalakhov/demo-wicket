@@ -1,15 +1,15 @@
-package demo.client;
+package demo.constants;
 
 /**
  * Created by Max Malakhov on 9/7/16.
  */
-public enum SortTypeEnum {
+public enum ActionTypeEnum {
 
-    ACTIVITY("activity"), VOTES("votes"), CREATION("creation"), RELEVANCE("relevance");
+    SEARCH("search"), QUESTIONS("questions");
 
     private String value;
 
-    private SortTypeEnum(String value)
+    private ActionTypeEnum(String value)
     {
         this.value = value;
     }
@@ -18,4 +18,5 @@ public enum SortTypeEnum {
     {
         return value;
     }
+
 }

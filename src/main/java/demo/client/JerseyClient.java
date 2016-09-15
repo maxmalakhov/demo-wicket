@@ -2,6 +2,9 @@ package demo.client;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.jaxrs.json.JacksonJsonProvider;
+import demo.constants.ActionTypeEnum;
+import demo.constants.OrderTypeEnum;
+import demo.constants.SortTypeEnum;
 import org.glassfish.jersey.client.ClientConfig;
 import org.glassfish.jersey.client.ClientProperties;
 import org.glassfish.jersey.message.GZipEncoder;
@@ -29,23 +32,25 @@ public class JerseyClient {
     /**
      *
      * @param action
+     * @param sortType
      * @return
      */
-    public static Response request(ActionTypeEnum action)
+    public static Response request(ActionTypeEnum action, SortTypeEnum sortType)
     {
-        return request(action, "");
+        return request(action, sortType, "");
     }
 
     /**
      *
      * @param action
+     * @param sortType
      * @param term
      * @return
      */
-    public static Response request(ActionTypeEnum action, String term)
+    public static Response request(ActionTypeEnum action, SortTypeEnum sortType, String term)
     {
         return JerseyClient.buildClient(action)
-                .queryParam(PARAM_SORT_TYPE, SortTypeEnum.ACTIVITY.getValue())
+                .queryParam(PARAM_SORT_TYPE, sortType.getValue())
                 .queryParam(PARAM_ORDER_TYPE, OrderTypeEnum.DESC.getValue())
                 .queryParam(PARAM_INTITLE, term)
                 .request(MediaType.APPLICATION_JSON_TYPE)
